@@ -1,0 +1,48 @@
+\usetheme{src/sintef}
+\usefonttheme[onlymath]{serif}
+\titlebackground*{beamerthemesrc/assets/background}
+%-------------add your packages here-------------
+\usepackage{amsfonts,amsmath,oldgerm}
+\usepackage[T1]{fontenc}
+\usepackage{tikz, pgfplots}
+\usepackage{caption}
+\usepackage{subcaption,graphicx}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{mathtools}
+%-------------add your commands here-------------
+\newcommand{\hrefcol}[2]{\textcolor{cyan}{\href{#1}{#2}}}
+\newcommand{\testcolor}[1]{\colorbox{#1}{\textcolor{#1}{test}}~\texttt{#1}}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{shapes, arrows, positioning, calc}  
+\usetikzlibrary{overlay-beamer-styles}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.arrows}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{%
+	calc,%
+	decorations.pathmorphing,%
+	fadings,%
+	shadings%
+}
+
+% Define graphics path
+\graphicspath{{beamerthemesrc/figures/}}
+
+% Semiconductor manufacturing process arrows
+\tikzstyle{arrow} = [single arrow, minimum height=1.7cm, single arrow head extend=0.1cm, draw=outlinecolor, fill=outlinecolor, font=\scriptsize, text=textfigurecolor]
+% Semiconductor manufacturing process final block
+\tikzstyle{finalblock} = [rectangle, minimum height=0.52cm, minimum width=1.7cm, draw=outlinecolor, fill=outlinecolor, font=\scriptsize, text=textfigurecolor]
+% Rectangle of the fab process steps
+\tikzstyle{step_rectangle} = [rectangle, font=\scriptsize, rounded corners, minimum width=1.2cm, minimum height=0.55cm, text centered, text=textfigurecolor, draw=outlinecolor, fill=outlinecolor]
+% Circle for the question mark indicating a novelty
+\tikzstyle{novelty} = [circle, font=\scriptsize, text centered, text=black, draw=outlinecolor, fill=outlinecolor]
+% Thin arrow to connect nodes
+\tikzstyle{arrow_small} = [->, very thin, >=stealth, black]
+
+\def\y{0.4}
+\def\arrow{0.4}
+\def\step{0.35}
+\def\img{0.3}
+\def\imgfinal{1.1}
+\def\adc{0.22}

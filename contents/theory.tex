@@ -1,0 +1,26 @@
+\begin{frame}{Classification Task}
+\begin{block}{Dataset}<+->
+\centering
+\begin{itemize}
+    \item Given a dataset $\mathcal{D}$:
+    \begin{equation}
+        \mathcal{D} = \{(\mathbf{x}_i, \mathbf{y}_i)\}_{i=1}^n, y_{i,j} = \begin{cases}
+            1 & \text{if the $i$-th sample belongs to class $j$} \\
+            0 & \text{otherwise} \,;
+        \end{cases}
+    \end{equation}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Classification Task}
+\begin{block}{Aim}<+->
+\centering
+\begin{itemize}
+    \item Aim is to minimize the \emph{empirical risk}: \begin{equation}
+         \mathcal{R}_{\epsilon}(\theta) \coloneqq \frac{1}{n}\sum_{i=1}^{n} L(\mathbf{y}_i,f_{\theta}(\mathbf{x_i})) 
+    \end{equation}
+\end{itemize}
+\end{block}
+
+\end{frame}
