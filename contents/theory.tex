@@ -1,26 +1,108 @@
 \begin{frame}{Classification Task}
-\begin{block}{Dataset}<+->
-\centering
-\begin{itemize}
-    \item Given a dataset $\mathcal{D}$:
-    \begin{equation}
-        \mathcal{D} = \{(\mathbf{x}_i, \mathbf{y}_i)\}_{i=1}^n, y_{i,j} = \begin{cases}
-            1 & \text{if the $i$-th sample belongs to class $j$} \\
-            0 & \text{otherwise} \,;
-        \end{cases}
-    \end{equation}
-\end{itemize}
-\end{block}
+    \begin{definitionblock}{Definition}
+        \centering
+        \begin{itemize}
+            \item<1-> Dataset $\mathcal{D}$: set of input-output pairs
+            \[
+                \mathcal{D} = {\{(\mathbf{x}_i, y_i)\}}_{i=1}^n\,,
+            \]
+            where $\mathbf{x}_i \in \mathcal{X}$ is an input vector and $y_i\in \mathcal{Y} = \{c_1, \dots, c_K\}$ is its corresponding label;
+            \item<2-> $y_i$ can be transformed in vector form $\mathbf{y}_i\in \mathcal{Y} = {\{0,1\}}^K$ using one-hot encoding:
+            \[
+                y_{ij} = 
+                \begin{cases}
+                    1, \text{if $\mathbf{x}_i$ has label $c_j$}\\
+                    0, \text{otherwise}\,.
+                \end{cases}
+            \]
+        \end{itemize}
+    \end{definitionblock}
 \end{frame}
 
 \begin{frame}{Classification Task}
-\begin{block}{Aim}<+->
-\centering
-\begin{itemize}
-    \item Aim is to minimize the \emph{empirical risk}: \begin{equation}
-         \mathcal{R}_{\epsilon}(\theta) \coloneqq \frac{1}{n}\sum_{i=1}^{n} L(\mathbf{y}_i,f_{\theta}(\mathbf{x_i})) 
-    \end{equation}
-\end{itemize}
-\end{block}
+    \begin{definitionblock}{Definitions}
+        \centering
+        \begin{itemize}
+            \item<1-> Underlying mapping $f$: a function
+            \[
+                f:\mathcal{X} \to \mathcal{Y}
+            \]
+            that maps input vectors to output labels.
+        \end{itemize}
+    \end{definitionblock}
+\end{frame}
 
+\begin{frame}{Classification Task}
+    \begin{normalblock}{Classification Aim}
+        \centering
+        \begin{itemize}
+            \item<1-> Given input $\mathbf{x}_i$, aim is to correctly predict label $\mathbf{y}_i$.
+            \item<2-> Training process: $f$ is approximated using a parametrized function $f_{\theta}$:
+            \[
+                f_{\theta}: \mathcal{X} \to \mathcal{Y}\;,
+            \]
+            that minimizes the \emph{empirical risk}: 
+            \[
+                \mathcal{R}_{\epsilon}(\theta) \coloneqq \frac{1}{n}\sum_{i=1}^{n} L(\mathbf{y}_i,f_{\theta}(\mathbf{x_i}))\,.
+            \]
+        \end{itemize}
+    \end{normalblock}
+\end{frame}
+
+\begin{frame}{Loss Function}
+    \begin{definitionblock}{Definition}
+        \centering
+        \begin{itemize}
+            \item<1-> Loss function $L$: measures the dissimilarity between predicted and true labels.
+            \item<2-> Different possibilities:
+            \begin{align*}
+                L_{0, 1} &= \frac{1}{n} \sum_{i=1}^{n} \mathbb{I}(y_i, f_{\theta}(\mathbf{x}_i))\\
+                L_{RMSE} &= \frac{1}{n}\sqrt{\sum_{i=1}^{n} {(y_i-f_{\theta}(\mathbf{x}_i))}^2}   
+            \end{align*}
+        \end{itemize}
+    \end{definitionblock}
+\end{frame}
+
+\begin{frame}{Artificial Neural Network}
+    \begin{center}
+        \scalebox{0.7}{
+        \begin{tikzpicture}[x=3cm,y=1.2cm]
+            \message{^^JNeural network, shifted}
+            \readlist\Nnod{4,5,5,5,3} % array of number of nodes per layer
+            \readlist\Nstr{n,m,m,m,k} % array of string number of nodes per layer
+            \readlist\Cstr{\strut x,a^{(\prev)},a^{(\prev)},a^{(\prev)},y} % array of coefficient symbol per layer
+            \def\yshift{0.5} % shift last node for dots
+            
+            \message{^^J  Layer}
+            \foreachitem \N \in \Nnod{ % loop over layers
+            \def\lay{\Ncnt} % alias of index of current layer
+            \pgfmathsetmacro\prev{int(\Ncnt-1)} % number of previous layer
+            \message{\lay,}
+            \foreach \i [evaluate={\c=int(\i==\N); \y=\N/2-\i-\c*\yshift;
+                        \index=(\i<\N?int(\i):"\Nstr[\lay]");
+                        \x=\lay; \n=\nstyle;}] in {1,...,\N}{ % loop over nodes
+                % NODES
+                \node[node \n] (N\lay-\i) at (\x,\y) {$\Cstr[\lay]_{\index}$};
+                
+                % CONNECTIONS
+                \ifnum\lay>1 % connect to previous layer
+                \foreach \j in {1,...,\Nnod[\prev]}{ % loop over nodes in previous layer
+                    \draw[connect,white,line width=1.2] (N\prev-\j) -- (N\lay-\i);
+                    \draw[connect] (N\prev-\j) -- (N\lay-\i);
+                    %\draw[connect] (N\prev-\j.0) -- (N\lay-\i.180); % connect to left
+                }
+                \fi % else: nothing to connect first layer
+                
+            }
+            \path (N\lay-\N) --++ (0,1+\yshift) node[midway,scale=1.5] {$\vdots$};
+            }
+            
+            % LABELS
+            \node[above=0.1,align=center,mygreen!60!black] at (N1-1.90) {input\\[-0.2em]layer};
+            \node[above=0.1,align=center,myblue!60!black] at (N3-1.90) {hidden layers};
+            \node[above=0.1,align=center,myred!60!black] at (N\Nnodlen-1.90) {output\\[-0.2em]layer};
+            
+        \end{tikzpicture}
+        }
+    \end{center}
 \end{frame}

@@ -21,7 +21,7 @@
 \newcommand{\footlinepayoff}[1]{\renewcommand{\@footlinepayoff}{#1}}
 % Define footline content
 \setbeamertemplate{footline}{%
-  \begin{beamercolorbox}[wd=\textwidth,ht=5mm,dp=3mm,rightskip=1cm,leftskip=1cm]{footline}
+  \begin{beamercolorbox}[wd=\textwidth,ht=2.6ex,dp=1.3ex,rightskip=1cm,leftskip=1cm]{footline}
   \insertframenumber/\inserttotalframenumber
   \ifstrempty{\@footlinepayoff}{}{%
     \usebeamerfont{footline}\hfill\@footlinepayoff
@@ -45,8 +45,8 @@
 }
 \footlinecolor{} % Default: no footline
 
-\pgfdeclareimage[width=0.09\paperwidth]{logo}{beamerthemesrc/assets/logo_RGB}
-\pgfdeclareimage[width=0.09\paperwidth]{whitelogo}{beamerthemesrc/assets/logo_RGB_negative}
+\pgfdeclareimage[width=0.07\paperwidth]{logo}{beamerthemesrc/assets/logo_RGB}
+\pgfdeclareimage[width=0.07\paperwidth]{whitelogo}{beamerthemesrc/assets/logo_RGB_negative}
 \newcommand{\@logo}{logo}
 
 % Set colours
@@ -103,6 +103,26 @@
 	\setbeamercolor{block title}{fg=#1,bg=#2}
 	\setbeamercolor{block body} {fg=#1,bg=#2}
 	\begin{block}{#3}
+	}{%
+	\end{block}
+	\endgroup
+}
+
+\newenvironment{definitionblock}[2][white]{%
+	\begingroup
+	\setbeamercolor{block title}{fg=white,bg=definitioncolor}
+	\setbeamercolor{block body} {fg=black,bg=definitionlightcolor}
+	\begin{block}{#2}
+	}{%
+	\end{block}
+	\endgroup
+}
+
+\newenvironment{normalblock}[2][white]{%
+	\begingroup
+	\setbeamercolor{block title}{fg=white,bg=maincolor}
+	\setbeamercolor{block body} {fg=black,bg=mainlightcolor}
+	\begin{block}{#2}
 	}{%
 	\end{block}
 	\endgroup
