@@ -99,12 +99,224 @@
             }
             
             % LABELS
-            \node[above=0.1,align=center,mygreen!60!black] at (N1-1.90) {input\\[-0.2em]layer};
+            \node[above=0.4,align=center,mygreen!60!black] at (N1-1.90) {input\\[-0.2em]layer};
             \node[above=0.1,align=center,myblue!60!black] at (N3-1.90) {hidden layers};
-            \node[above=0.1,align=center,myred!60!black] at (N\Nnodlen-1.90) {output\\[-0.2em]layer};
+            \node[above=0.85,align=center,myred!60!black] at (N\Nnodlen-1.90) {output\\[-0.2em]layer};
             
         \end{tikzpicture}
         }
-        \caption*{Test}
+        \caption*{Feedforward neural network}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Convolutional Neural Network}
+    \begin{figure}
+        \centering
+        \scalebox{0.7}{
+            \begin{tikzpicture}[x=1.6cm,y=1.1cm]
+                \large
+                \message{^^JDeep convolution neural network}
+                \readlist\Nnod{5,5,4,3,2,4,4,3} % array of number of nodes per layer
+                \def\NC{6} % number of convolutional layers
+                \def\nstyle{int(\lay<\Nnodlen?(\lay<\NC?min(2,\lay):3):4)} % map layer number on 1, 2, or 3
+                \tikzset{ % node styles, numbered for easy mapping with \nstyle
+                  node 1/.style={node in},
+                  node 2/.style={node convol},
+                  node 3/.style={node hidden},
+                  node 4/.style={node out},
+                }
+                
+                % TRAPEZIA
+                \draw[visible on=<3->, myorange!40,fill=myorange,fill opacity=0.02,rounded corners=2]
+                  %(1.6,-2.5) rectangle (4.4,2.5);
+                  (1.6,-2.7) --++ (0,5.4) --++ (3.8,-1.9) --++ (0,-1.6) -- cycle;
+                \draw[visible on=<2->, myblue!40,fill=myblue,fill opacity=0.02,rounded corners=2]
+                  (5.6,-2.0) rectangle++ (1.8,4.0);
+                \node[right=19,above=1.05,align=center,myorange!60!black] at (3.1,1.8) {convolutional\\[-0.2em]layers};
+                \node[above=1,align=center,myblue!60!black] at (6.5,1.9) {fully-connected\\[-0.2em]hidden layers};
+                
+                \message{^^J  Layer}
+                \foreachitem \N \in \Nnod{ % loop over layers
+                  \def\lay{\Ncnt} % alias of index of current layer
+                  \pgfmathsetmacro\prev{int(\Ncnt-1)} % number of previous layer
+                  %\pgfmathsetmacro\Nprev{\Nnod[\prev]} % array of number of nodes in previous layer
+                  \message{\lay,}
+                  \foreach \i [evaluate={\y=\N/2-\i+0.5; \x=\lay; \n=\nstyle;}] in {1,...,\N}{ % loop over nodes
+                    %\message{^^J  Layer \lay, node \i}
+                    
+                    % NODES
+                    \node[node \n,outer sep=0.6] (N\lay-\i) at (\x,\y) {};
+                    
+                    % CONNECTIONS
+                    \ifnum\lay>1 % connect to previous layer
+                      \ifnum\lay<\NC % convolutional layers
+                        \foreach \j [evaluate={\jprev=int(\i-\j); \cconv=int(\Nnod[\prev]>\N); \ctwo=(\cconv&&\j>0);
+                                     \c=int((\jprev<1||\jprev>\Nnod[\prev]||\ctwo)?0:1);}]
+                                     in {-1,0,1}{
+                          \ifnum\c=1
+                            \ifnum\cconv=0
+                              \draw[connect,white,line width=1.2] (N\prev-\jprev) -- (N\lay-\i);
+                            \fi
+                            \draw[connect] (N\prev-\jprev) -- (N\lay-\i);
+                          \fi
+                        }
+                        
+                      \else % fully connected layers
+                        \foreach \j in {1,...,\Nnod[\prev]}{ % loop over nodes in previous layer
+                          \draw[connect,white,line width=1.2] (N\prev-\j) -- (N\lay-\i);
+                          \draw[connect] (N\prev-\j) -- (N\lay-\i);
+                        }
+                      \fi
+                    \fi % else: nothing to connect first layer
+                    
+                  }
+                }
+                
+                % LABELS
+                \node[above=0.5,align=center,mygreen!60!black] at (N1-1.90) {input\\[-0.2em]layer};
+                \node[above=1.55,align=center,myred!60!black] at (N\Nnodlen-1.90) {output\\[-0.2em]layer};
+                
+              \end{tikzpicture}
+        }
+        \caption*{Convolutional neural network}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Activation Function}
+    \begin{figure}[h]
+        \begin{minipage}{0.28\textwidth}
+        \centering
+        \setlength\tabcolsep{0pt}
+        \begin{tikzpicture}
+            \pgfplotsset{%
+                width=1.2\textwidth,
+                height=1.2\textwidth
+            }
+            \begin{axis}[
+                domain=-5:5,
+                xlabel={$ReLU(x)$},
+                samples=200,
+                smooth,
+            ]
+            \addplot [
+                domain=-5:0,
+                red,
+            ]
+            {
+                0
+            };
+            \addplot [
+                domain=0:5,
+                red,
+            ]
+            {
+                x
+            };
+            \end{axis}
+        \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.28\textwidth}
+        \centering
+        \setlength\tabcolsep{0pt}
+        \begin{tikzpicture}
+            \pgfplotsset{%
+                width=1.2\textwidth,
+                height=1.2\textwidth
+            }
+            \begin{axis}[
+                domain=-5:5,
+                xlabel={$tanh(x)$},
+                samples=200,
+                smooth,
+            ]
+            \addplot [
+                domain=-5:0,
+                red,
+            ]
+            {
+                tanh(x)
+            };
+            \addplot [
+                domain=0:5,
+                red,
+            ]
+            {
+                tanh(x)
+            };
+            \end{axis}
+        \end{tikzpicture}
+        \end{minipage}
+        \begin{minipage}{0.28\textwidth}
+        \centering
+        \setlength\tabcolsep{0pt}
+        \begin{tikzpicture}
+            \pgfplotsset{%
+                width=1.2\textwidth,
+                height=1.2\textwidth
+            }
+            \begin{axis}[
+                domain=-5:5,
+                xlabel={$\sigma(x)$},
+                samples=200,
+                smooth,
+            ]
+            \addplot [
+                domain=-5:5,
+                red,
+            ]
+            {
+                1/(1+exp(-\x))
+            };
+            \end{axis}
+        \end{tikzpicture}
+        \end{minipage}
+        \caption*{Activation Functions}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Latent space}
+    \begin{definitionblock}{Definition}
+        \centering
+        \begin{itemize}
+            \item<1-> Latent space $\mathcal{Z}$: low-dimensional space where high-dimensional data is translated into a more semantically-sound representation.
+            \item <2-> It is generated by post-convolutional fully-connected layers.
+        \end{itemize}
+    \end{definitionblock}
+\end{frame}
+
+\begin{frame}{Latent Space}
+    \begin{normalblock}{Example: image data}
+        \begin{itemize}
+            \item <1-> Input: \emph{RGB} images with size $300 \times 300$.
+            \item <2-> Input space $\mathcal{X}$:
+            \[
+                \dim{\mathcal{X}} = 300\times300\times3 = \SI{270000}{}.
+            \]
+            \item <3-> Data could be mapped to a latent space $\mathcal{Z}$ with $\dim \mathcal{Z}= \SI{1024}{}$.
+        \end{itemize}
+    \end{normalblock}
+\end{frame}
+
+\begin{frame}{Training a CNN}
+    \begin{definitionblock}{Definition}
+        \begin{itemize}
+            \item <1-> Weight space: parameter space defined by the weights of the neural network.
+            \item <2-> Loss landscape: representation of the loss function in the weight space.
+        \end{itemize}
+    \end{definitionblock}
+    \onslide<2>\begin{figure}
+        \centering
+        \begin{subfigure}{.5\textwidth}
+            \centering
+            \includegraphics[width=0.3\textwidth]{losslandscape1.jpg}
+            \caption*{A possible loss landscape}
+        \end{subfigure}%
+        \begin{subfigure}{.5\textwidth}
+            \centering
+            \centering
+            \includegraphics[width=0.3\textwidth]{losslandscape2.jpg}
+            \caption*{A possible loss landscape}
+        \end{subfigure}
+        \caption{A figure with two subfigures}
     \end{figure}
 \end{frame}
