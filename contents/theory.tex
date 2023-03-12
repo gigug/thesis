@@ -7,7 +7,7 @@
                 \mathcal{D} = {\{(\mathbf{x}_i, y_i)\}}_{i=1}^n\,,
             \]
             where $\mathbf{x}_i \in \mathcal{X}$ is an input vector and $y_i\in \mathcal{Y} = \{c_1, \dots, c_K\}$ is its corresponding label;
-            \item<2-> $y_i$ can be transformed in vector form $\mathbf{y}_i\in \mathcal{Y} = {\{0,1\}}^K$ using one-hot encoding:
+            \item<2-> $y_i$ can be transformed into vector form $\mathbf{y}_i\in \mathcal{Y} = {\{0,1\}}^K$ using one-hot encoding:
             \[
                 y_{ij} = 
                 \begin{cases}
@@ -33,7 +33,7 @@
 \end{frame}
 
 \begin{frame}{Classification Task}
-    \begin{normalblock}{Classification Aim}
+    \begin{normalblock}{Classification aim}
         \centering
         \begin{itemize}
             \item<1-> Given input $\mathbf{x}_i$, aim is to correctly predict label $\mathbf{y}_i$.
@@ -305,18 +305,434 @@
         \end{itemize}
     \end{definitionblock}
     \onslide<2>\begin{figure}
-        \centering
-        \begin{subfigure}{.5\textwidth}
-            \centering
-            \includegraphics[width=0.3\textwidth]{losslandscape1.jpg}
-            \caption*{A possible loss landscape}
-        \end{subfigure}%
-        \begin{subfigure}{.5\textwidth}
-            \centering
-            \centering
-            \includegraphics[width=0.3\textwidth]{losslandscape2.jpg}
-            \caption*{A possible loss landscape}
-        \end{subfigure}
-        \caption{A figure with two subfigures}
+        \includegraphics[width=0.3\textwidth]{losslandscape.png}
+        \caption*{Possible loss landscape}
     \end{figure}
+\end{frame}
+
+\begin{frame}{Data Drift}
+    \begin{definitionblock}{Definition}
+        \begin{itemize}
+            \item <1-> Covariate shift: distribution of the input variables $p(\mathbf{x})$ changes after deploying the model. Classes are not modified.
+            \item <2-> Concept drift: conditional distribution $p(y|\mathbf{x})$ changes after deploying the model:
+            \begin{enumerate}
+                \item <3-> inputs previously assigned to one class may change label;
+                \item <4-> new classes may altogether be formed.
+            \end{enumerate}
+        \end{itemize}
+    \end{definitionblock}
+
+    %\onslide<1->\begin{figure}
+    %    \begin{tikzpicture}[xscale=0.5, yscale=1.5]
+    %        \draw[->] (0.7,0.8) -- (2.3,0.8) node[below right] {};
+            % Draw x-axis
+    %        \draw[->] (-3,0) -- (6,0) node[below right] {$x$};
+            % Draw first Gaussian function
+    %        \draw[domain=-2.5:2.5,smooth,variable=\x,blue] plot ({\x},{exp(-\x*\x)});
+            % Draw second Gaussian function
+    %        \draw[domain=-2.5:2.5,smooth,variable=\x,red] plot ({\x+3},{exp(-\x*\x)});
+    %    \end{tikzpicture}
+    %    \caption*{Covariate shift}
+    %\end{figure}
+\end{frame}
+
+\begin{frame}{Open-Set Recognition}
+    \begin{definitionblock}{Definition}
+        \begin{itemize}
+            \item <1-> Open-set recognition (OSR): field of ML that assumes an incomplete knowledge of the world during training time.
+        \end{itemize}
+    \end{definitionblock}
+    \begin{figure}[h]
+        \scalebox{.68}{
+            \begin{subfigure}{0.48\textwidth}
+                \centering
+                \begin{tikzpicture}
+              
+                  \pgfplotsset{
+                      scale only axis,
+                  }
+              
+                  \begin{axis}[
+                    xmin=0, 
+                    xmax=1.4, 
+                    ymin=0, 
+                    ymax=1.4,
+                    %axis equal image
+                    x=4.3cm,
+                    y=4.3cm,
+                    ticks=none]
+                    \addplot [draw=customred,fill=customred, opacity=0.2]
+                        coordinates {(0.65,0.7) (1.4,1.4) (1.4,0) (0.65,0)};
+                    \addplot [draw=customgreen,fill=customgreen, opacity=0.2]
+                        coordinates {(0.65,0.7) (0,1.4) (0,0) (0.65,0)}; 
+                    \addplot [draw=customblue,fill=customblue, opacity=0.2]
+                        coordinates {(0.65,0.7) (0.65,0.7) (1.4,1.4) (0,1.4)};
+                    
+                    \addplot[only marks, mark=x, color=black]
+                    coordinates{
+                      (0.61,0.72)
+                      (0.63,0.75)
+                      (0.67,0.69)
+                      (0.62,0.64)
+                      (0.65,0.65)
+                      (0.63,0.68)
+                      (0.63,0.7)
+              
+                      (1.21,0.07)
+                      (1.23,0.13)
+                      (1.27,0.15)
+                      (1.22,0.1)
+                      (1.25,0.19)
+                      (1.3,0.1)
+                      (1.3,0.2)
+              
+                      (1.21,1.37)
+                      (1.23,1.33)
+                      (1.27,1.35)
+                      (1.22,1.21)
+                      (1.25,1.29)
+                      (1.3,1.31)
+                      (1.3,1.25)
+                    };
+              
+                    \addlegendimage{/pgfplots/refstyle=plot_one_1}
+                    %\addlegendentry{plot 1}
+              
+                    \addplot[only marks, mark=+, color=customgreen]
+                    coordinates{
+                      (0.51,0.58)
+                      (0.52,0.57)
+                      (0.50,0.57)
+                      (0.55,0.55)
+                      (0.5,0.6)
+                      (0.53,0.65)
+                      (0.45,0.62)
+                      (0.49,0.6)
+                    };
+                    
+                    \addlegendimage{/pgfplots/refstyle=plot_two_1}
+                    %\addlegendentry{plot 2}
+              
+                    \addplot[only marks, mark=asterisk, color=customblue]
+                    coordinates{
+                      (0.7,0.9)
+                      (0.65,0.87)
+                      (0.66,0.89)
+                      (0.75,0.95)
+                      (0.72,0.98)
+                      (0.64,0.82)
+                    };
+                    \addlegendimage{/pgfplots/refstyle=plot_three_1}
+              
+                    \addplot[only marks, mark=o, color=customred]
+                    coordinates{
+                      (0.81,0.59)
+                      (0.80,0.57)
+                      (0.88,0.57)
+                      (0.84,0.60)
+                      (0.79,0.61)
+                      (0.9,0.6)
+                      (0.85,0.63)
+                      (0.93,0.66)
+                      (0.92,0.59)
+                      % more points...
+                    };
+              
+                    % plot 1 legend entry
+                    \addlegendimage{/pgfplots/refstyle=plot_four_1}
+                    %\addlegendentry{plot 2}
+                    \node[] at (axis cs: 0.1,1.3) {$\mathcal{X}$};
+                  \end{axis}
+                \end{tikzpicture}
+                \caption*{\Large{Closed-set recognition}}
+                \end{subfigure}
+                \qquad
+                \begin{subfigure}{0.48\textwidth}
+                \centering
+                \begin{tikzpicture}
+              
+                \pgfplotsset{
+                    scale only axis,
+                }
+                
+                \begin{axis}[
+                  xmin=0, 
+                  xmax=1.4, 
+                  ymin=0, 
+                  ymax=1.4,
+                  %axis equal image
+                  x=4.3cm,
+                  y=4.3cm,
+                  ticks=none]
+                 
+              
+                  \addplot[only marks, mark=x, color=black]
+                  coordinates{
+                    (0.61,0.72)
+                    (0.63,0.75)
+                    (0.67,0.69)
+                    (0.62,0.64)
+                    (0.65,0.65)
+                    (0.63,0.68)
+                    (0.63,0.7)
+              
+                    (1.21,0.07)
+                    (1.23,0.13)
+                    (1.27,0.15)
+                    (1.22,0.1)
+                    (1.25,0.19)
+                    (1.3,0.1)
+                    (1.3,0.2)
+              
+                    (1.21,1.37)
+                    (1.23,1.33)
+                    (1.27,1.35)
+                    (1.22,1.21)
+                    (1.25,1.29)
+                    (1.3,1.31)
+                    (1.3,1.25)
+                  };
+              
+                  \addlegendimage{/pgfplots/refstyle=plot_one_2}
+                  %\addlegendentry{plot 1}
+              
+                  \draw[rotate around={45:(0.51,0.60)},customgreen, fill=customgreen, fill opacity=0.2] (0.51,0.60) ellipse (10pt and 14pt);
+                  \addplot[only marks, mark=+, color=customgreen]
+                  coordinates{
+                    (0.51,0.58)
+                    (0.52,0.57)
+                    (0.50,0.57)
+                    (0.55,0.55)
+                    (0.5,0.6)
+                    (0.53,0.65)
+                    (0.45,0.62)
+                    (0.49,0.6)
+                  };
+              
+                  
+                  \addlegendimage{/pgfplots/refstyle=plot_two_2}
+                  %\addlegendentry{plot 2}
+              
+                  \draw[rotate around={-35:(0.7,0.9)},customblue, fill=customblue, fill opacity=0.2] (0.7,0.9) ellipse (9pt and 15pt);
+                  \addplot[only marks, mark=asterisk, color=customblue]
+                  coordinates{
+                    (0.7,0.9)
+                    (0.65,0.87)
+                    (0.66,0.89)
+                    (0.75,0.95)
+                    (0.72,0.98)
+                    (0.64,0.82)
+                  }; 
+                  \addlegendimage{/pgfplots/refstyle=plot_three_2}
+              
+                  \draw[rotate around={-65:(0.87,0.61)},customred, fill=customred, fill opacity=0.2] (0.87,0.61) ellipse (9pt and 16pt);
+                  \addplot[only marks, mark=o, color=customred]
+                  coordinates{
+                    (0.81,0.59)
+                    (0.80,0.57)
+                    (0.88,0.57)
+                    (0.84,0.60)
+                    (0.79,0.61)
+                    (0.9,0.6)
+                    (0.85,0.63)
+                    (0.93,0.66)
+                    (0.92,0.59)
+                  }; 
+              
+                  % plot 1 legend entry
+                  \addlegendimage{/pgfplots/refstyle=plot_four_2}
+                  \draw[rotate around={0:(1.25,1.29)},black, fill=black, fill opacity=0.1] (1.25,1.29) ellipse (11pt and 16pt);
+                  \draw[rotate around={-10:(1.26,0.13)},black, fill=black, fill opacity=0.1] (1.26,0.13) ellipse (10pt and 13pt);
+                  \draw[rotate around={0:(0.64,0.7)},black, fill=black, fill opacity=0.1] (0.64,0.7) ellipse (8pt and 10pt);
+                  
+                  \node[] at (axis cs: 0.1,1.3) {$\mathcal{X}$};
+                  \node[] at (axis cs: 0.6,1) {$S_1$};
+                  \node[] at (axis cs: 0.38,0.7) {$S_2$};
+                  \node[] at (axis cs: 1,0.72) {$S_3$};
+                  \node[] at (axis cs: 0.53,0.75) {$U_1$};
+                  \node[] at (axis cs: 1.1,1.25) {$U_2$};
+                  \node[] at (axis cs: 1.2,0.3) {$U_3$};
+              
+                \end{axis}
+                \end{tikzpicture}
+                \caption*{\Large{Open-set recognition}}
+            \end{subfigure}
+        }
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Open-Set Recognition}
+    \begin{normalblock}{Open-set recognition aim}
+        \begin{itemize}
+            \item Given input $\mathbf{x}_i$, aim is to: \begin{enumerate}
+                \item <2-> predict if its label is \emph{known}:
+                \[
+                    \mathbf{y}_i \in \mathcal{K};
+                \]
+                \item <3-> correctly classify it.
+            \end{enumerate}
+            \item <4-> Training process: minimize \emph{expected error}:
+            \[
+                \mathcal{R} = \mathcal{R}_{\epsilon} + \alpha \mathcal{R}_{\mathcal{O}}\,.
+            \]
+        \end{itemize}
+    \end{normalblock}
+\end{frame}
+
+\begin{frame}{Open-Set Risk}
+    \begin{definitionblock}{Definitions}
+        \begin{itemize}
+            \item <1-> Embedding space of class $k$: 
+            \[
+                \mathcal{S}_k \subset \mathcal{X}\,.
+            \]
+            \item <2-> Open space of class $k$:
+            \[
+                \mathcal{O}_k = \mathcal{X}/\mathcal{S}_k = \mathcal{O}_k^{pos} \cup \mathcal{O}_k^{neg}\,.
+            \]
+        \end{itemize}
+    \end{definitionblock}
+\end{frame}
+
+\begin{frame}{Open-Set Risk}
+    \begin{minipage}{0.55\textwidth}
+        \begin{definitionblock}{Definitions}
+            \begin{itemize}
+                \item <1-> Embedding space of class $k$: 
+                \[
+                    \mathcal{S}_k \subset \mathcal{X}\,.
+                \]
+                \item <2-> Open space of class $k$:
+                \[
+                    \mathcal{O}_k = \mathcal{X}/\mathcal{S}_k = \mathcal{O}_k^{pos} \cup \mathcal{O}_k^{neg}\,.
+                \]
+            \end{itemize}
+        \end{definitionblock}
+    \end{minipage}%
+    \begin{minipage}{0.45\textwidth}
+        \begin{figure}[h]
+            \scalebox{.68}{
+                \begin{tikzpicture}
+    
+                    \pgfplotsset{
+                        scale only axis,
+                    }
+                    
+                    \begin{axis}[
+                        xmin=0, 
+                        xmax=1.4, 
+                        ymin=0, 
+                        ymax=1.4,
+                        %axis equal image
+                        x=4.3cm,
+                        y=4.3cm,
+                        ticks=none]
+                        
+                    
+                        \addplot[only marks, mark=x, color=black]
+                        coordinates{
+                        (0.61,0.72)
+                        (0.63,0.75)
+                        (0.67,0.69)
+                        (0.62,0.64)
+                        (0.65,0.65)
+                        (0.63,0.68)
+                        (0.63,0.7)
+                    
+                        (1.21,0.07)
+                        (1.23,0.13)
+                        (1.27,0.15)
+                        (1.22,0.1)
+                        (1.25,0.19)
+                        (1.3,0.1)
+                        (1.3,0.2)
+                    
+                        (1.21,1.37)
+                        (1.23,1.33)
+                        (1.27,1.35)
+                        (1.22,1.21)
+                        (1.25,1.29)
+                        (1.3,1.31)
+                        (1.3,1.25)
+                        };
+                    
+                        \addlegendimage{/pgfplots/refstyle=plot_one_0}
+                    
+                        \draw[rotate around={45:(0.51,0.60)},customorange, fill=customorange, fill opacity=0.2] (0.51,0.60) ellipse (10pt and 14pt);
+                        \addplot[only marks, mark=+, color=customorange]
+                        coordinates{
+                        (0.51,0.58)
+                        (0.52,0.57)
+                        (0.50,0.57)
+                        (0.55,0.55)
+                        (0.5,0.6)
+                        (0.53,0.65)
+                        (0.45,0.62)
+                        (0.49,0.6)
+                        }; 
+                    
+                        
+                        \addlegendimage{/pgfplots/refstyle=plot_two_0}
+                        %\addlegendentry{plot 2}
+                    
+                        \draw[rotate around={-35:(0.7,0.9)},customblue, fill=customblue, fill opacity=0.2] (0.7,0.9) ellipse (9pt and 15pt);
+                        \addplot[only marks, mark=asterisk, color=customblue]
+                        coordinates{
+                        (0.7,0.9)
+                        (0.65,0.87)
+                        (0.66,0.89)
+                        (0.75,0.95)
+                        (0.72,0.98)
+                        (0.64,0.82)
+                        }; 
+                        \addlegendimage{/pgfplots/refstyle=plot_three_0}
+                    
+                        \draw[rotate around={-65:(0.87,0.61)},customorange, fill=customorange, fill opacity=0.2] (0.87,0.61) ellipse (9pt and 16pt);
+                        \addplot[only marks, mark=o, color=customorange]
+                        coordinates{
+                        (0.81,0.59)
+                        (0.80,0.57)
+                        (0.88,0.57)
+                        (0.84,0.60)
+                        (0.79,0.61)
+                        (0.9,0.6)
+                        (0.85,0.63)
+                        (0.93,0.66)
+                        (0.92,0.59)
+                        % more points...
+                        };
+                    
+                        % plot 1 legend entry
+                        \addlegendimage{/pgfplots/refstyle=plot_four_0}
+                        
+                        \node[] at (axis cs: 0.15,1.3) {$O^{neg}_1$};
+                        \node[] at (axis cs: 0.6,1) {$S_1$};
+                        \node[] at (axis cs: 0.38,0.72) {$O^{pos}_1$};
+                        \node[] at (axis cs: 1,0.74) {$O^{pos}_1$};
+                    
+                    \end{axis}
+                \end{tikzpicture}
+            }
+            \caption*{Test}
+        \end{figure}
+    \end{minipage}
+\end{frame}
+
+\begin{frame}{Open-Set Risk}
+    \begin{definitionblock}{Definitions}
+        \begin{itemize}
+            \item <1-> Recognition function: 
+            $\phi_k: \mathcal{X} \to \{0,1\}$ such that:
+            \[
+                \phi_k = \begin{cases}
+                1 & \text{if $\mathbf{x}$ is classified as \emph{k}}, \\
+                0 & \text{otherwise}.
+                \end{cases}
+            \]
+            \item <2-> Open space risk for class $k$:
+            \[
+                \mathcal{R}_{\mathcal{O}}(\phi_k, \mathcal{O}^{neg}_k) = \frac{\int \limits_{\mathcal{O}^{neg}_k} \phi_k(x)dx}{\int \limits_{\mathcal{X}} \phi_k(x)dx}.
+            \]
+        \end{itemize}
+    \end{definitionblock}
 \end{frame}
