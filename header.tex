@@ -8,8 +8,13 @@
 \usepackage{caption}
 \usepackage{subcaption,graphicx}
 \usepackage{siunitx}
+\usepackage{colortbl}
+\usepackage{lipsum}
+\usepackage{makecell}
 \usepackage{booktabs}
+\usepackage{multirow}
 \usepackage{mathtools}
+\usepackage{appendixnumberbeamer}
 %-------------add your commands here-------------
 \newcommand{\hrefcol}[2]{\textcolor{cyan}{\href{#1}{#2}}}
 \newcommand{\testcolor}[1]{\colorbox{#1}{\textcolor{#1}{test}}~\texttt{#1}}
@@ -18,6 +23,9 @@
 \usetikzlibrary{overlay-beamer-styles}
 \usetikzlibrary{positioning}
 \usetikzlibrary{shapes.arrows}
+\usetikzlibrary{spy}
+\usetikzlibrary{patterns}
+\usetikzlibrary{backgrounds}
 \usetikzlibrary{arrows.meta}
 \usetikzlibrary{%
 	calc,%
@@ -51,6 +59,7 @@
 \usepackage{amsmath} % for aligned
 %\usepackage{amssymb} % for \mathbb
 \usepackage{tikz}
+\usepackage{bm}
 %\usepackage{etoolbox} % for \ifthen
 \usepackage{listofitems} % for \readlist to create arrays
 \usetikzlibrary{arrows.meta} % for arrow size
@@ -79,4 +88,3 @@
   node 3/.style={node out},
 }
 \def\nstyle{int(\lay<\Nnodlen?min(2,\lay):3)} % map layer number onto 1, 2, or 3
-%-------------tikz neural network end-------------

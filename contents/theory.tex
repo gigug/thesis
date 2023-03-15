@@ -182,98 +182,6 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}{Activation Function}
-    \begin{figure}[h]
-        \begin{minipage}{0.28\textwidth}
-        \centering
-        \setlength\tabcolsep{0pt}
-        \begin{tikzpicture}
-            \pgfplotsset{%
-                width=1.2\textwidth,
-                height=1.2\textwidth
-            }
-            \begin{axis}[
-                domain=-5:5,
-                xlabel={$ReLU(x)$},
-                samples=200,
-                smooth,
-            ]
-            \addplot [
-                domain=-5:0,
-                red,
-            ]
-            {
-                0
-            };
-            \addplot [
-                domain=0:5,
-                red,
-            ]
-            {
-                x
-            };
-            \end{axis}
-        \end{tikzpicture}
-        \end{minipage}
-        \begin{minipage}{0.28\textwidth}
-        \centering
-        \setlength\tabcolsep{0pt}
-        \begin{tikzpicture}
-            \pgfplotsset{%
-                width=1.2\textwidth,
-                height=1.2\textwidth
-            }
-            \begin{axis}[
-                domain=-5:5,
-                xlabel={$tanh(x)$},
-                samples=200,
-                smooth,
-            ]
-            \addplot [
-                domain=-5:0,
-                red,
-            ]
-            {
-                tanh(x)
-            };
-            \addplot [
-                domain=0:5,
-                red,
-            ]
-            {
-                tanh(x)
-            };
-            \end{axis}
-        \end{tikzpicture}
-        \end{minipage}
-        \begin{minipage}{0.28\textwidth}
-        \centering
-        \setlength\tabcolsep{0pt}
-        \begin{tikzpicture}
-            \pgfplotsset{%
-                width=1.2\textwidth,
-                height=1.2\textwidth
-            }
-            \begin{axis}[
-                domain=-5:5,
-                xlabel={$\sigma(x)$},
-                samples=200,
-                smooth,
-            ]
-            \addplot [
-                domain=-5:5,
-                red,
-            ]
-            {
-                1/(1+exp(-\x))
-            };
-            \end{axis}
-        \end{tikzpicture}
-        \end{minipage}
-        \caption*{Activation Functions}
-    \end{figure}
-\end{frame}
-
 \begin{frame}{Latent space}
     \begin{definitionblock}{Definition}
         \centering
@@ -577,21 +485,6 @@
             \]
         \end{itemize}
     \end{normalblock}
-\end{frame}
-
-\begin{frame}{Open-Set Risk}
-    \begin{definitionblock}{Definitions}
-        \begin{itemize}
-            \item <1-> Embedding space of class $k$: 
-            \[
-                \mathcal{S}_k \subset \mathcal{X}\,.
-            \]
-            \item <2-> Open space of class $k$:
-            \[
-                \mathcal{O}_k = \mathcal{X}/\mathcal{S}_k = \mathcal{O}_k^{pos} \cup \mathcal{O}_k^{neg}\,.
-            \]
-        \end{itemize}
-    \end{definitionblock}
 \end{frame}
 
 \begin{frame}{Open-Set Risk}

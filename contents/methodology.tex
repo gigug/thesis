@@ -473,11 +473,11 @@
     \centering
     \begin{normalblock}{Method steps}
         \begin{itemize}
-            \item Backbone trained on $\mathcal{D}_{train}$.
-            \item Latent representations $\mathcal{S}_{train} = {\{\mathbf{s}_i\}}_{i=1}^{n_1}$ of $\mathcal{D}_{train}$ extracted.
-            \item \textcolor{red}{Clusters $\mathcal{C} = {\{c_j\}}_{j=1}^{|\mathcal{K}|}$ formed using clustering algorithms.}
-            \item Centroids $\mathbf{\mu}_j$ found for each cluster.
-            \item Distances $d_{i,j}$ from centroids evaluated.
+            \item \textcolor{black!20}{Backbone trained on $\mathcal{D}_{train}$.}
+            \item \textcolor{black!20}{Latent representations $\mathcal{S}_{train} = {\{\mathbf{s}_i\}}_{i=1}^{n_1}$ of $\mathcal{D}_{train}$ extracted.}
+            \item Clusters $\mathcal{C} = {\{c_j\}}_{j=1}^{|\mathcal{K}|}$ formed using \emph{clustering algorithms}.
+            \item \textcolor{black!20}{Centroids $\mathbf{\mu}_j$ found for each cluster.}
+            \item \textcolor{black!20}{Distances $d_{i,j}$ from centroids evaluated.}
         \end{itemize}
   \end{normalblock}
 \end{frame}
@@ -1352,7 +1352,7 @@
           \[
               \text{accuracy} = \frac{1}{N}\sum_{i=1}^N \mathds{1} (y_i = \hat{y}_i)\,.
           \]
-          \item<2-> Novelty detection: \emph{AUROC} with 
+          \item<2-> Novelty detection: \emph{AUC} with 
           \[
               TPR = \frac{TP}{TP+FN}, \quad FPR = \frac{FP}{FP+TN}\,.
           \]
