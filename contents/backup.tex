@@ -91,5 +91,88 @@
 \end{frame}
 
 \begin{frame}{ResNet50}
-    
+    \begin{table}[h]
+        \scalebox{0.63}{
+            \centering
+            \setlength\extrarowheight{3pt}
+            \begin{tabular}{|c|c|c|c|}
+                \hline
+                \textbf{Layer} & \textbf{Resolution} & \textbf{Channels} & \textbf{Layers} \\
+                $\mathcal{F}_i$ & $H_i \times W_i$ & $C_i$ & $L_i$\\
+                \hline
+                Conv, $7\times7$, $s2$ & 112$\times$112 & 64 & 1 \\
+                \hline
+                Max Pool, $3 \times 3$, $s2$ & 56$\times$56 & 64 & 1 \\
+                \hline
+                $
+                \begin{aligned}
+                    & \text{Conv}, 1\times1 \\
+                    & \text{Conv}, 3\times3 \\
+                    & \text{Conv}, 1\times1 \\
+                \end{aligned}
+                $ & 56$\times$56 & $\begin{aligned} & 64 \\ & 64 \\ & 256 \\ \end{aligned}$ & 3 \\
+                \hline
+                $\begin{aligned}
+                    & \text{Conv}, 1\times1 \\
+                    & \text{Conv}, 3\times3 \\
+                    & \text{Conv}, 1\times1 \\
+                \end{aligned}
+                $ & 28$\times$28 & $\begin{aligned} & 128 \\ & 128 \\ & 512 \\ \end{aligned}$ & 4 \\
+                \hline
+                $\begin{aligned}
+                    & \text{Conv}, 1\times1 \\
+                    & \text{Conv}, 3\times3 \\
+                    & \text{Conv}, 1\times1 \\
+                \end{aligned}
+                $ & 14$\times$14 & $\begin{aligned} & 256 \\ & 256 \\ & 1024 \end{aligned} $ & 6 \\ \hline $\begin{aligned}
+                    & \text{Conv}, 1\times1 \\
+                    & \text{Conv}, 3\times3 \\
+                    & \text{Conv}, 1\times1 \\
+                \end{aligned}
+                $ & 7$\times$7 & $\begin{aligned} & 512 \\ & 512 \\ & 2048 \\ \end{aligned}$ & 3 \\
+                \hline 
+                $\begin{aligned} & \text{Average Pool} \\ & \text{Fully-Connected} \end{aligned}$ & 1$\times$1 & 1000 & 1\\
+                \hline 
+            \end{tabular}
+        }
+            \caption*{ResNet50}
+    \end{table}
+\end{frame}
+
+\begin{frame}{EfficientNet-B0}
+    \begin{table}[h]
+        \scalebox{0.7}{
+            \centering
+            \setlength\extrarowheight{3pt}
+            \begin{tabular}{|c|c|c|c|}
+                \hline
+                \textbf{Layer} & \textbf{Resolution} & \textbf{Channels} & \textbf{Layers} \\
+                $\mathcal{F}_i$ & $H_i \times W_i$ & $C_i$ & $L_i$\\
+                \hline
+                Conv, $3\times3$ & 224$\times$224 & 32 & 1 \\
+                \hline
+                MBConv, $3 \times 3$ & 112$\times$112 & 16 & 1 \\
+                \hline
+                MBConv, $3 \times 3$ & 112$\times$112 & 24 & 2 \\ 
+                \hline 
+                MBConv, $3 \times 3$ & 112$\times$112 & 24 & 2 \\
+                \hline 
+                MBConv, $5 \times 5$ & 56$\times$56 & 40 & 2 \\
+                \hline 
+                MBConv, $3 \times 3$ & 28$\times$28 & 80 & 3 \\
+                \hline 
+                MBConv, $5 \times 5$ & 14$\times$14 & 112 & 3 \\
+                \hline 
+                MBConv, $5 \times 5$ & 14$\times$14 & 192 & 4 \\
+                \hline 
+                MBConv, $3 \times 3$ & 7$\times$7 & 32 & 1 \\
+                \hline 
+                Conv, $1 \times 1$ & 7$\times$7 & 1280 & 1 \\
+                \hline 
+                $\begin{aligned} & \text{Average Pool} \\ & \text{Fully-Connected} \end{aligned}$ & 1$\times$1 & 1280 & 1\\
+                \hline 
+            \end{tabular}
+            }
+        \caption*{EfficientNet-B0}
+    \end{table}
 \end{frame}

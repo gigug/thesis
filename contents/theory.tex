@@ -43,7 +43,7 @@
             \]
             that minimizes the \emph{empirical risk}: 
             \[
-                \mathcal{R}_{\epsilon}(\theta) \coloneqq \frac{1}{n}\sum_{i=1}^{n} L(\mathbf{y}_i,f_{\theta}(\mathbf{x_i}))\,.
+                \mathcal{R}_{\varepsilon}(\theta) \coloneqq \frac{1}{n}\sum_{i=1}^{n} \mathcal{L}(\mathbf{y}_i,f_{\theta}(\mathbf{x_i}))\,.
             \]
         \end{itemize}
     \end{normalblock}
@@ -53,11 +53,11 @@
     \begin{definitionblock}{Definition}
         \centering
         \begin{itemize}
-            \item<1-> Loss function $L$: measures the dissimilarity between predicted and true labels.
+            \item<1-> Loss function $\mathcal{L}$: measures the dissimilarity between predicted and true labels.
             \item<2-> Different possibilities:
             \begin{align*}
-                L_{0, 1} &= \frac{1}{n} \sum_{i=1}^{n} \mathbb{I}(y_i, f_{\theta}(\mathbf{x}_i))\\
-                L_{RMSE} &= \frac{1}{n}\sqrt{\sum_{i=1}^{n} {(y_i-f_{\theta}(\mathbf{x}_i))}^2}   
+                \mathcal{L}_{0, 1} &= \frac{1}{n} \sum_{i=1}^{n} \mathbb{I}(y_i, f_{\theta}(\mathbf{x}_i))\\
+                \mathcal{L}_{RMSE} &= \frac{1}{n}\sqrt{\sum_{i=1}^{n} {(y_i-f_{\theta}(\mathbf{x}_i))}^2}\,.
             \end{align*}
         \end{itemize}
     \end{definitionblock}
@@ -107,6 +107,9 @@
         }
         \caption*{Feedforward neural network}
     \end{figure}
+    \begin{flushright}
+        \tiny{\textcolor{gray}{https://tikz.net/neural\_networks/}}
+    \end{flushright}
 \end{frame}
 
 \begin{frame}{Convolutional Neural Network}
@@ -180,6 +183,9 @@
         }
         \caption*{Convolutional neural network}
     \end{figure}
+    \begin{flushright}
+        \tiny{\textcolor{gray}{https://tikz.net/neural\_networks/}}
+    \end{flushright}
 \end{frame}
 
 \begin{frame}{Latent space}
@@ -216,6 +222,20 @@
         \includegraphics[width=0.3\textwidth]{losslandscape.png}
         \caption*{Possible loss landscape}
     \end{figure}
+    \begin{flushright}
+        \tiny{\textcolor{gray}{Li, H., Xu, Z., Taylor, G., Studer, C., \& Goldstein, T. (2017). Visualizing the Loss Landscape of Neural Nets. arXiv.}}
+      \end{flushright}
+\end{frame}
+
+\begin{frame}{Label smoothing}
+    \begin{definitionblock}{Definition}
+        \begin{itemize}
+            \item Label smoothing:
+            \[
+                y_j' = y_j(1 - \alpha) + \frac{\alpha}{K},\, \forall j \in \{1, \dots, K\} \,.
+            \]
+        \end{itemize}
+    \end{definitionblock}
 \end{frame}
 
 \begin{frame}{Data Drift}
@@ -481,7 +501,7 @@
             \end{enumerate}
             \item <4-> Training process: minimize \emph{expected error}:
             \[
-                \mathcal{R} = \mathcal{R}_{\epsilon} + \alpha \mathcal{R}_{\mathcal{O}}\,.
+                \mathcal{R} = \mathcal{R}_{\varepsilon} + \alpha \mathcal{R}_{\mathcal{O}}\,.
             \]
         \end{itemize}
     \end{normalblock}
@@ -617,14 +637,14 @@
             \item <1-> Recognition function: 
             $\phi_k: \mathcal{X} \to \{0,1\}$ such that:
             \[
-                \phi_k = \begin{cases}
+                \phi_k(\mathbf{x}) = \begin{cases}
                 1 & \text{if $\mathbf{x}$ is classified as \emph{k}}, \\
                 0 & \text{otherwise}.
                 \end{cases}
             \]
             \item <2-> Open space risk for class $k$:
             \[
-                \mathcal{R}_{\mathcal{O}}(\phi_k, \mathcal{O}^{neg}_k) = \frac{\int \limits_{\mathcal{O}^{neg}_k} \phi_k(x)dx}{\int \limits_{\mathcal{X}} \phi_k(x)dx}.
+                \mathcal{R}_{\mathcal{O}}(\phi_k, \mathcal{O}^{neg}_k) = \frac{\int \limits_{\mathcal{O}^{neg}_k} \phi_k(\mathbf{x})dx}{\int \limits_{\mathcal{X}} \phi_k(\mathbf{x})dx}.
             \]
         \end{itemize}
     \end{definitionblock}

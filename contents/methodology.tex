@@ -31,7 +31,7 @@
         \draw[visible on=<4->, arrow_small] (secondrectcenter) -- (thirdrectright);
         
      \end{tikzpicture}
-     \caption*{\hspace*{4em} Image dimensions. \uncover<2->{\hspace*{7em} Correlated metadata.}}
+     \caption*{\hspace*{4em} Image dimensions \uncover<2->{\hspace*{7em} Correlated metadata}}
 
      \end{figure}
  \end{center}
@@ -40,7 +40,7 @@
 \begin{frame}{Dataset Distribution}
   \begin{figure}[h]
     \centering
-        \resizebox{8cm}{4.5cm}{
+        \resizebox{9cm}{!}{
         \begin{tikzpicture}[font=\small]
             \pgfplotsset{every axis/.append style={
                 axis x line=middle,    % put the x axis in the middle
@@ -224,10 +224,10 @@
               \end{axis}
         \end{tikzpicture}
         }\hspace*{1em}
-    \only<1>{\caption*{Initial defect class distribution.}}
-    \only<2>{\caption*{Initial defect class distribution.}}
-    \only<3>{\caption*{Downsampled defect class distribution.}}
-    \only<4>{\caption*{Resampled (upsampled \& downsampled) defect class distribution.}}
+    \only<1>{\caption*{Initial defect class distribution}}
+    \only<2>{\caption*{Initial defect class distribution}}
+    \only<3>{\caption*{Downsampled defect class distribution}}
+    \only<4>{\caption*{Resampled (upsampled \& downsampled) defect class distribution}}
     \end{figure}
 \end{frame}
     
@@ -248,7 +248,7 @@
           \bottomrule
           \end{tabular}
           }
-          \caption*{Transformations applied to images.}
+          \caption*{Transformations applied to images}
     \end{table}
 \end{frame}
 
@@ -270,15 +270,15 @@
             \draw[decorate, decoration={brace, amplitude=1ex, raise=1cm}] (l2.east) -- node[midway, below=1.2cm] {$\mathcal F(\mathbf{x})$} (l1.west);
           
         \end{tikzpicture}
-        \caption*{Residual block.}
+        \caption*{Residual block}
     \end{figure}
 \end{frame}
 
 \begin{frame}{Backbone Architecture: EfficientNet}
     \begin{figure}
         \centering
-            \includegraphics[scale=0.2]{effnet_pic.png}
-            \caption*{EfficientNet-B$0$.}
+            \includegraphics[scale=0.35]{effnet_pic.png}
+            \caption*{EfficientNets}
     \end{figure}
 \end{frame}
 
@@ -304,13 +304,14 @@
             \bottomrule
             \end{tabular}
         }
-        \caption*{Subsets of the original dataset.}
+        \caption*{Subsets of the original dataset}
     \end{table}
 \end{frame}
 
 \begin{frame}{Distance Method with Ground Truth}
-    \begin{minipage}{0.5\textwidth}
+    \begin{minipage}[c]{0.5\textwidth}
         \centering
+        \vspace*{15px}
         \begin{overprint}
             \onslide<1-5>\begin{normalblock}{Method steps}
                 \begin{itemize}
@@ -323,7 +324,7 @@
             \end{normalblock}
             \onslide<6->\begin{normalblock}{Method steps}
               \begin{itemize}
-                  \item <6->For each cluster, the distance $\bar{d_j}$, corresponding to a chosen $P$-th percentile, is found.
+                  \item <6-> Distance $\bar{d_j}$ found $\forall j$, corresponding to chosen $P$-th percentile.
                   \item <7-> $\mathbf{x} \in \mathcal{D}_{test}$ fed to the backbone. 
                   \item <8-> Distances $\hat{d_j}$ from centroids evaluated.
                   \item <9-> $\mathbf{x}$ classified as unknown if: 
@@ -334,8 +335,8 @@
           \end{normalblock}
         \end{overprint}
     \end{minipage}
-    \hspace{0.2cm}
-    \begin{minipage}{0.46\textwidth}
+    \begin{minipage}[c]{0.4\textwidth}
+        \hspace*{50px}
         \centering
         \scalebox{.73}{
         \onslide<2->\begin{tikzpicture}
@@ -493,6 +494,7 @@
               \]
           \end{itemize}
       \end{definitionblock}
+  \vspace*{12px}
   \end{minipage}
   \quad
   \begin{minipage}{0.49\textwidth}
@@ -1314,7 +1316,7 @@
                       \end{axis}
                   \end{tikzpicture}
               }
-              \caption*{\footnotesize{  Loci with fixed Mahalanobis and Euclidean distances.}} %Euclidean from the centroid, Mahalanobis from the distribution
+              \caption*{\footnotesize{  Loci with fixed Mahalanobis and Euclidean distances}} %Euclidean from the centroid, Mahalanobis from the distribution
           \end{figure}
   \end{minipage}
 \end{frame}
@@ -1323,8 +1325,11 @@
   \begin{figure}
       \centering
       \includegraphics[width=.7\textwidth]{ARPL}
-      \caption*{Reciprocal points learning scheme.}
+      \caption*{Reciprocal points learning scheme}
   \end{figure}
+  \begin{flushright}
+    \tiny{\textcolor{gray}{Chen, G., Qiao, L., Shi, Y., Peng, P., Li, J., Huang, T., Pu, S., \& Tian, Y. (2020). Learning Open Set Network with Discriminative Reciprocal Points. CoRR, abs/2011.00178. }}
+  \end{flushright}
 \end{frame}
 
 \begin{frame}{Reciprocal Points Learning Method}
@@ -1362,4 +1367,15 @@
           \]
         \end{itemize}
     \end{normalblock}
+\end{frame}
+
+\begin{frame}{Difficulty Metric}
+    \begin{definitionblock}{Definition}
+        \begin{itemize}
+            \item Openness: 
+            \[
+                \Theta = 1 - \sqrt{\frac{2|\mathcal{K}|}{2|\mathcal{K}| + |\mathcal{U}|}}\,.
+            \]
+        \end{itemize}
+    \end{definitionblock}
 \end{frame}
